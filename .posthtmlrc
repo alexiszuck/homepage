@@ -1,0 +1,10 @@
+{
+  "plugins": {
+    "posthtml-expressions": {
+      locals: { 
+        title: "Alexis Zuck",
+        posts: 5
+      }
+    }
+  }
+}
