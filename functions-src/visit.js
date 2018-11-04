@@ -23,7 +23,7 @@ exports.handler = function(event, context, callback) {
   
   v.save((err, data) => {
     if (!err) {
-      VisitsLog.estimatedDocumentCount({}, (err, c) => {
+      VisitsLog.estimatedDocumentCount({}, (e, c) => {
         callback(null, {
           statusCode: 200,
           headers: {
