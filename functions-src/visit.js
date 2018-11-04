@@ -1,45 +1,50 @@
 require('dotenv').config();
-const { Pool } = require('pg');
+const mongoose = require('mongoose');
 
-const con = new Pool({
-  connectionString: process.env.DB_URI,
-  ssl: true,
-});
+mongoose.connect(process.env.DB_URI, { useNewUrlParser: true });
 
-const query = (sql, params) => con.connect()
-  .then(client => client.query(sql, params)
-    .then((res) => {
-      client.release();
-      return Promise.resolve(res);
-    })
-    .catch((err) => {
-      client.release();
-      return Promise.reject(err);
-    }));
-
-const insertVisits = async (event) => {
-  const sqlV = `INSERT INTO log_visits (user_id, user_agent, ip_address) VALUES ('1', '${event.headers['user-agent']}', '${event.headers['x-forwarded-for']}') RETURNING id`;
-  return await query(sqlV);
-};
-
+const visitsSchema = new mongoose.Schema({
+    user_id:  {type: Number, required: true},
+    user_agent: {type: String, required: true},
+    ip_address: {type: String, required: true}
+  },
+  { timestamps: true }
+);
+let VisitsLog = mongoose.model('VisitsLog', visitsSchema);
+  
 exports.handler = function(event, context, callback) {
-  //console.log(event);
-  console.log('user-agent', event.headers['user-agent']);
-  console.log('x-forwarded-for', event.headers['x-forwarded-for']);
-  console.log(context);
-  //const {identity, user} = context.clientContext;
-  insertVisits(event)
-  .then(res => {
-    console.log(res.rows[0].id);
-    callback(null, {
-      statusCode: 200,
-      headers: {
-        "Access-Control-Allow-Origin" : "*",
-        "Access-Control-Allow-Headers": "Content-Type"
-      },
-      body: JSON.stringify({ visits: res.rows[0].id }),
-    });
+//console.log(process.env.DB_URI);
+
+  let v = new VisitsLog({
+    user_id:  '1',
+    user_agent: event.headers['user-agent'],
+    ip_address: event.headers['x-forwarded-for']
   });
   
+  v.save((err, data) => {
+    if (!err) {
+      VisitsLog.estimatedDocumentCount({}, (err, c) => {
+        callback(null, {
+          statusCode: 200,
+          headers: {
+            "Access-Control-Allow-Origin" : "*",
+            "Access-Control-Allow-Headers": "Content-Type"
+          },
+          body: JSON.stringify({ visits: c })
+        });
+      });
+    } else {
+      console.error(err);
+      throw new Error(err);
+    }
+    
+  });
 
-}
+
+  
+  //console.log(event);
+  // console.log('user-agent', event.headers['user-agent']);
+  // console.log('x-forwarded-for', event.headers['x-forwarded-for']);
+  // console.log(context);
+  //const {identity, user} = context.clientContext;
+};

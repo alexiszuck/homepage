@@ -21,7 +21,7 @@ console.log(u);
   })
   .catch(error => {
     vc.innerHTML = '-';
-    console.error(error);
+    //console.error(error);
   });
 }
 
@@ -51,8 +51,8 @@ function createFolder() {
 
 (function(){
   visit();
-  document.getElementById("createFolderSubmit").addEventListener("click", function(e) {
-    e.preventDefault();
-    createFolder();
-  });
+  // document.getElementById("createFolderSubmit").addEventListener("click", function(e) {
+  //   e.preventDefault();
+  //   createFolder();
+  // });
 })();
