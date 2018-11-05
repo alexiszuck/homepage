@@ -6,6 +6,7 @@
   "scripts": {
     "serve-functions": "netlify-lambda serve --port 8082 functions-src",
     "build-functions": "NODE_ENV=production netlify-lambda build functions-src",
+    "build-dummy": "echo \"this is dummy build\"",
     "serve": "npm run serve-functions | npm run serve-parcel",
     "serve-parcel": "NODE_ENV=development parcel index.html --port $PORT --log-level 3 --hmr-port 8081",
     "prebuild": "rm -rf dist",
