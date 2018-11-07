@@ -2,7 +2,6 @@
   "plugins": {
     "posthtml-expressions": {
       locals: { 
-        version: "0.0.1",
         title: "Alexis Zuck",
         posts: 7
       }
