@@ -4,14 +4,14 @@
   "description": "homepage",
   "private": true,
   "scripts": {
-    "serve-functions": "netlify-lambda serve --port 8082 functions-src",
+    "serve-functions": "NODE_ENV=development netlify-lambda serve --port 8082 functions-src",
     "build-functions": "NODE_ENV=production netlify-lambda build functions-src",
     "build-dummy": "echo \"this is dummy build\"",
     "serve": "npm run serve-functions | npm run serve-parcel",
-    "serve-parcel": "NODE_ENV=development parcel index.html --port $PORT --log-level 3 --hmr-port 8081",
+    "serve-parcel": "NODE_ENV=development parcel index.html --port $PORT --log-level 3 --hmr-port 8081 --no-source-maps",
     "prebuild": "rm -rf dist",
     "prebuild-keep": "rm -rf dist && cp -R ./assets ./dist",
-    "build": "npm run build-functions | NODE_ENV=production parcel build --no-source-maps index.html",
+    "build": "npm run build-functions | NODE_ENV=production parcel build index.html --no-source-maps",
     "bundle-experiment": "node bundler.js"
   },
   "devDependencies": {
