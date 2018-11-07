@@ -3,6 +3,7 @@ const co = require('co');
 const mongoose = require('mongoose');
 
 let conn = null;
+let db_uri = process.env.DB_URI;
 
 exports.handler = function(event, context, callback) {
   // Make sure to add this so you can re-use `conn` between function calls.
@@ -30,9 +31,9 @@ function run(event) {
     // This means your Lambda function doesn't have to go through the
     // potentially expensive process of connecting to MongoDB every time.
     if (conn == null) {
-      console.log(process.env.DB_URI);
+      //console.log(process.env.NODE_ENV, db_uri);
 
-      conn = yield mongoose.createConnection(process.env.DB_URI, {
+      conn = yield mongoose.createConnection(db_uri, {
         // Buffering means mongoose will queue up operations if it gets
         // disconnected from MongoDB and send them when it reconnects.
         // With serverless, better to fail fast if not connected.

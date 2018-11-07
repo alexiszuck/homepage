@@ -4,14 +4,14 @@
   "description": "homepage",
   "private": true,
   "scripts": {
-    "serve-functions": "NODE_ENV=development netlify-lambda serve --port 8082 functions-src",
-    "build-functions": "NODE_ENV=production netlify-lambda build functions-src",
+    "serve-functions": "DB_URI=mongodb://0.0.0.0:27017/alexiszuck netlify-lambda serve --port 8082 functions-src",
+    "build-functions": "netlify-lambda build functions-src",
     "build-dummy": "echo \"this is dummy build\"",
     "serve": "npm run serve-functions | npm run serve-parcel",
-    "serve-parcel": "NODE_ENV=development parcel index.html --port $PORT --log-level 3 --hmr-port 8081 --no-source-maps",
+    "serve-parcel": "ENDPOINT_PREFIX=https://study-alexiszuck.c9users.io:8082 parcel index.html --port $PORT --log-level 3 --hmr-port 8081 --no-source-maps",
     "prebuild": "rm -rf dist",
     "prebuild-keep": "rm -rf dist && cp -R ./assets ./dist",
-    "build": "npm run build-functions | NODE_ENV=production parcel build index.html --no-source-maps",
+    "build": "npm run build-functions | parcel build index.html --no-source-maps",
     "bundle-experiment": "node bundler.js"
   },
   "devDependencies": {
