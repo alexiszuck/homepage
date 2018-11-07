@@ -8,10 +8,11 @@
     "build-functions": "netlify-lambda build functions-src",
     "build-dummy": "echo \"this is dummy build\"",
     "serve": "npm run serve-functions | npm run serve-parcel",
-    "serve-parcel": "ENDPOINT_PREFIX=https://study-alexiszuck.c9users.io:8082 parcel index.html --port $PORT --log-level 3 --hmr-port 8081 --no-source-maps",
+    "serve-parcel": "ENDPOINT_PREFIX=https://study-alexiszuck.c9users.io:8082 parcel src/*.html --port $PORT --log-level 3 --hmr-port 8081",
     "prebuild": "rm -rf dist",
     "prebuild-keep": "rm -rf dist && cp -R ./assets ./dist",
-    "build": "npm run build-functions | parcel build index.html --no-source-maps",
+    "build-parcel": "parcel build src/*.html --no-source-maps",
+    "build": "npm run build-functions | npm run build-parcel",
     "bundle-experiment": "node bundler.js"
   },
   "devDependencies": {
