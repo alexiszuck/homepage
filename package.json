@@ -11,7 +11,7 @@
     "serve-parcel": "NODE_ENV=development parcel index.html --port $PORT --log-level 3 --hmr-port 8081",
     "prebuild": "rm -rf dist",
     "prebuild-keep": "rm -rf dist && cp -R ./assets ./dist",
-    "build": "npm run build-functions | NODE_ENV=production parcel build --no-content-hash index.html",
+    "build": "npm run build-functions | NODE_ENV=production parcel build --no-source-maps index.html",
     "bundle-experiment": "node bundler.js"
   },
   "devDependencies": {
