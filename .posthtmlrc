@@ -3,7 +3,7 @@
     "posthtml-expressions": {
       locals: { 
         title: "Alexis Zuck",
-        posts: 5
+        posts: 6
       }
     }
   }
